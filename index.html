@@ -3,17 +3,16 @@
  <head>
   <meta charset=UTF-8><title>Time</title>
   <script type=module>
-   var w=await navigator.wakeLock.request()
-   document.addEventListener("visibilitychange",async _=>document.visibilityState=="visible"?w=await navigator.wakeLock.request`screen`:0)
-   var s=new URLSearchParams(location.search)
-   switch(s.get`t`){
-    case "d":setInterval(_=>d.style.height=(new Date().getHours()  *  60+new Date().getMinutes()     )/ 14.39+"vh",1e2);break
-    case "m":setInterval(_=>d.style.height=(new Date().getSeconds()*1000+new Date().getMilliseconds())/599.99+"vh",1e1);break
-    default :setInterval(_=>d.style.height=(new Date().getMinutes()*  60+new Date().getSeconds()     )/ 35.99+"vh",1e3);break
-   }
-   b.style.background="#"+(s.get`b`??"fff")
-   d.style.background="#"+(s.get`f`??"000")
+   const
+    s=new URLSearchParams(location.search),
+    [m,i]=[[3600e3,1e2],[86400e3,1e4],[60e3,1e2]][1+"dm".indexOf(s.get`t`)],
+    H=_=>{let t=new Date;d.style.height=(((t.getHours()*60+t.getMinutes())*60+t.getSeconds())*1000+t.getMilliseconds())%m/(m-1)*100+"vh"}
+   let w=await navigator.wakeLock.request()
+   document.addEventListener("visibilitychange",async _=>document.visibilityState=="visible"?w=await navigator.wakeLock.request():0)
+   H();setInterval(H,i)
+   b.style.background="#"+(s.get`b`??"fff");d.style.background="#"+(s.get`f`??"000")
   </script>
  </head>
- <body id=b style=margin:0><div id=d></div></body>
+ <body id=b style=margin:0><div id=d></div>
+ </body>
 </html>
