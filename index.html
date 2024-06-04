@@ -4,13 +4,14 @@
   <meta charset=UTF-8><title>Time</title>
   <script type=module>
    const
+    C=c=>[...c].every(e=>"0123456789abcdefABCDEF".includes(e))?"#"+c:c,
     s=new URLSearchParams(location.search),
     [m,i]=[[3600e3,1e2],[86400e3,1e4],[60e3,1e2]][1+"dm".indexOf(s.get`t`)],
     H=_=>{let t=new Date;d.style.height=(((t.getHours()*60+t.getMinutes())*60+t.getSeconds())*1000+t.getMilliseconds())%m/(m-1)*100+"vh"}
    let w=await navigator.wakeLock.request()
    document.addEventListener("visibilitychange",async _=>document.visibilityState=="visible"?w=await navigator.wakeLock.request():0)
    H();setInterval(H,i)
-   b.style.background="#"+(s.get`b`??"fff");d.style.background="#"+(s.get`f`??"000")
+   b.style.background=C(s.get`b`??"fff");d.style.background=C(s.get`f`??"000")
   </script>
  </head>
  <body id=b style=margin:0><div id=d></div>
