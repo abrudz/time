@@ -1,8 +1,19 @@
-<html lang="en">
-<head>
-<meta charset="UTF-8"><title>Time</title>
-<script>setInterval(_=>d.style.height=new Date().getMinutes()/.59+"vh",1e3)</script>
-<style>body{margin:0}div{background:#000}</style>
-</head>
-<body><div id=d></div></body>
+<!DOCTYPE html>
+<html lang=en>
+ <head>
+  <meta charset=UTF-8><title>Time</title>
+  <script type=module>
+   var w=await navigator.wakeLock.request()
+   document.addEventListener("visibilitychange",async _=>document.visibilityState=="visible"?w=await navigator.wakeLock.request`screen`:0)
+   var s=new URLSearchParams(location.search)
+   switch(s.get`t`){
+    case "d":setInterval(_=>d.style.height=(new Date().getHours()  *  60+new Date().getMinutes()     )/ 14.39+"vh",1e2);break
+    case "m":setInterval(_=>d.style.height=(new Date().getSeconds()*1000+new Date().getMilliseconds())/599.99+"vh",1e1);break
+    default :setInterval(_=>d.style.height=(new Date().getMinutes()*  60+new Date().getSeconds()     )/ 35.99+"vh",1e3);break
+   }
+   b.style.background="#"+(s.get`b`??"fff")
+   d.style.background="#"+(s.get`f`??"000")
+  </script>
+ </head>
+ <body id=b style=margin:0><div id=d></div></body>
 </html>
